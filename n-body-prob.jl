@@ -37,23 +37,23 @@ function three_body!(du, u, p, t)
 end
 
 function dotsize(m)
-	return 10 * (log10(m) + 1)
+	return maximum((10 * (log10(m) + 1), 10.0))
 end
 
 
 no_animar = false
-masses = [1.0, 1.0, 1.5]
+masses = [100.0, 0.1, 0.1]
 
-# v1 = 1.0
-# v2 = 1.0
-# initial_velocities = [0.0, 0.0,
-#                       0.0, v1,
-#                       0.0, -v2]
+v1 = 11.0
+v2 = 9.0
+initial_velocities = [0.0, 0.0,
+                      0.0, v1,
+                      0.0, -v2]
 
-# initial_positions = [0.05, 0.0, masses[1]/(v1^2), 0.0, -masses[1]/(v2^2), 0.0]
+initial_positions = [0.05, 0.0, masses[1]/(v1^2), 0.0, -masses[1]/(v2^2), 0.0]
 
-initial_velocities = randn(6)/10
-initial_positions = [-1, 0, 1, 0, 0, sqrt(5)]
+# initial_velocities = randn(6)/10
+# initial_positions = [-1, 0, 1, 0, 0, sqrt(5)]
 
 initial_momentum = [sum(masses .* initial_velocities[1:2:end]),
                     sum(masses .* initial_velocities[2:2:end])]
@@ -104,7 +104,7 @@ else
 	x3, y3 = tr[:, 5], tr[:, 6]
 
 	final_frame = 10000
-	trail = 400
+	trail = 250
 	skip_every = 4
 	record(fig, "3-body.mp4", 1:skip_every:final_frame; framerate=60) do frame
 		planets[] = [Point2f(x1[frame], y1[frame]),
